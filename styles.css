@@ -1,0 +1,25 @@
+/* styles.css */
+
+#gameArea {
+  position: relative;
+  height: 600px;
+  width: 800px;
+  border: 1px solid black;
+}
+
+#mario {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  height: 100px;
+  width: 100px;
+  background-image: url("./mario.gif");
+  background-size: cover;
+  transition: left 0.3s;
+}
+.platform {
+  position: absolute;
+  bottom: 0;
+  height: 20px;
+  background-color: brown;
+}
