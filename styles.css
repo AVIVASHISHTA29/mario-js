@@ -1,25 +1,28 @@
-/* styles.css */
-
 #gameArea {
   position: relative;
-  height: 600px;
-  width: 800px;
+  height: 400px;
+  width: 70%;
   border: 1px solid black;
+  background-image: url(./assets/background.png);
+  background-size: cover;
+  background-position: bottom;
+  background-position-y: -110px;
 }
 
 #mario {
   position: absolute;
-  bottom: 0;
-  left: 0;
-  height: 100px;
+  bottom: 12px;
+  left: 50px;
   width: 100px;
-  background-image: url("./mario.gif");
+  height: 100px;
+  background: url("./assets/mario.gif"); /* replace with your Mario image */
   background-size: cover;
-  transition: left 0.3s;
 }
-.platform {
+
+.obstacle {
   position: absolute;
   bottom: 0;
-  height: 20px;
-  background-color: brown;
+  width: 50px;
+  height: 50px;
+  background-size: cover;
 }

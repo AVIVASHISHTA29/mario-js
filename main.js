@@ -1,77 +1,85 @@
 // main.js
 
 var mario = document.getElementById("mario");
-var gameArea = document.getElementById("gameArea");
-var platforms = Array.from(document.getElementsByClassName("platform"));
+var obstacles = [createObstacle(), createObstacle()];
+var gameInterval;
 
-// Set initial position
-mario.style.left = "0px";
-mario.style.bottom = "0px";
-
-var marioSpeed = 15;
-var gravity = 1;
-var marioJumpSpeed = 15;
-var marioJumping = false;
+function startGame() {
+  mario.style.bottom = "0px";
+  obstacles[0].style.right = "-50px";
+  obstacles[1].style.right = "400px"; // Start second obstacle from middle
+  gameInterval = setInterval(runGame, 20);
+}
 
 window.addEventListener("keydown", function (event) {
-  switch (event.key) {
-    case "ArrowLeft":
-      if (parseInt(mario.style.left) > marioSpeed)
-        mario.style.left = parseInt(mario.style.left) - marioSpeed + "px";
-      break;
-    case "ArrowRight":
-      if (
-        parseInt(mario.style.left) + mario.offsetWidth + marioSpeed <
-        gameArea.offsetWidth
-      )
-        mario.style.left = parseInt(mario.style.left) + marioSpeed + "px";
-      break;
-    case " ": // Space bar represents jump
-      if (!marioJumping) {
-        marioJumping = true;
-        jump();
-      }
-      break;
+  if (event.key === " " && parseInt(mario.style.bottom) === 0) {
+    jump();
   }
-  collisionCheck();
 });
 
-function jump() {
-  if (
-    parseInt(mario.style.bottom) + marioJumpSpeed > 0 &&
-    parseInt(mario.style.bottom) + marioJumpSpeed <
-      gameArea.offsetHeight - mario.offsetHeight
-  ) {
-    mario.style.bottom = parseInt(mario.style.bottom) + marioJumpSpeed + "px";
-    marioJumpSpeed -= gravity;
-    setTimeout(jump, 20);
-  } else {
-    marioJumping = false;
-    marioJumpSpeed = 10;
-    mario.style.bottom = "0px";
+function runGame() {
+  for (let i = 0; i < obstacles.length; i++) {
+    obstacles[i].style.right = `${parseInt(obstacles[i].style.right) + 5}px`;
+    if (parseInt(obstacles[i].style.right) > 800) {
+      obstacles[i].style.right = "-50px";
+      changeObstacleImage(obstacles[i]); // change obstacle when the old one leaves the screen
+    }
+    if (collision(mario, obstacles[i])) {
+      //   alert("Game Over!");
+      clearInterval(gameInterval);
+    }
   }
 }
 
-function collisionCheck() {
-  platforms.forEach((platform) => {
-    var marioX = parseInt(mario.style.left);
-    var marioY = parseInt(mario.style.bottom);
-    var marioWidth = mario.offsetWidth;
-    var marioHeight = mario.offsetHeight;
-
-    var platformX = parseInt(platform.style.left);
-    var platformY = parseInt(platform.style.bottom);
-    var platformWidth = platform.offsetWidth;
-    var platformHeight = platform.offsetHeight;
-
-    if (
-      marioX < platformX + platformWidth &&
-      marioX + marioWidth > platformX &&
-      marioY < platformY + platformHeight &&
-      marioHeight + marioY > platformY
-    ) {
-      mario.style.bottom = platformY + platformHeight + "px";
-      marioJumping = false;
+function jump() {
+  let jumpInterval = setInterval(function () {
+    if (parseInt(mario.style.bottom) < 100) {
+      mario.style.bottom = `${parseInt(mario.style.bottom) + 5}px`;
+    } else {
+      clearInterval(jumpInterval);
+      let fallInterval = setInterval(function () {
+        if (parseInt(mario.style.bottom) > 0) {
+          mario.style.bottom = `${parseInt(mario.style.bottom) - 5}px`;
+        } else {
+          clearInterval(fallInterval);
+        }
+      }, 20);
     }
-  });
+  }, 20);
+}
+
+function collision(div1, div2) {
+  let rect1 = div1.getBoundingClientRect();
+  let rect2 = div2.getBoundingClientRect();
+
+  return !(
+    rect1.right < rect2.left ||
+    rect1.left > rect2.right ||
+    rect1.bottom < rect2.top ||
+    rect1.top > rect2.bottom
+  );
+}
+
+function changeObstacleImage(obstacle) {
+  const obstaclesImages = ["./assets/pipe.png", "./assets/mushroom.png"]; // your obstacle images
+  const randomIndex = Math.floor(Math.random() * obstaclesImages.length);
+  if (obstaclesImages[randomIndex] == "pipe.png") {
+    obstacle.style.bottom = "12px";
+  } else {
+    obstacle.style.height = "80px";
+    obstacle.style.width = "80px";
+    obstacle.style.bottom = "-8px";
+  }
+  obstacle.style.backgroundImage = `url(${obstaclesImages[randomIndex]})`;
+}
+
+function createObstacle() {
+  let obstacle = document.createElement("div");
+  obstacle.className = "obstacle";
+  obstacle.style.right = "0";
+  obstacle.style.width = "50px";
+  obstacle.style.height = "50px";
+  document.getElementById("gameArea").appendChild(obstacle);
+  changeObstacleImage(obstacle); // Assign initial image to the obstacle
+  return obstacle;
 }
