@@ -1,0 +1,76 @@
+body {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+  background: #6b88fe;
+  margin: 0;
+  padding: 0;
+}
+
+#start-btn {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  padding: 15px 30px;
+  font-size: 1.5rem;
+  color: #fff;
+  background: #ff5252;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  outline: none;
+  transition: all 0.3s ease;
+}
+
+#start-btn:hover {
+  background: #ff8a80;
+}
+
+#game-container {
+  position: relative;
+  height: 500px;
+  width: 900px;
+  background: url("./assets/background.png");
+  background-size: cover;
+  background-position: bottom;
+  background-position-y: -95px;
+  /* border: 3px solid #ffffff; */
+  border-bottom-width: 0px;
+  display: none;
+}
+
+#score {
+  position: fixed;
+  top: 10px;
+  right: 10px;
+  font-size: 30px;
+  color: #ffffff;
+}
+
+#mario {
+  position: absolute;
+  bottom: 32px;
+  left: 50px;
+  height: 100px;
+  transition: all 0.2s;
+}
+
+.obstacle {
+  position: absolute;
+  bottom: 35px;
+  width: 60px;
+  transition: all 0.3s;
+  display: none;
+}
+
+.flipped {
+  transform: scaleX(-1);
+  transition: all 0s;
+}
+
+#mushroom {
+  width: 80px;
+  bottom: 10px;
+}

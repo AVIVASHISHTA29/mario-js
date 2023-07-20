@@ -1,15 +1,24 @@
 <!DOCTYPE html>
 <html>
   <head>
-    <title>Mario Runner</title>
-    <link rel="stylesheet" type="text/css" href="styles.css" />
+    <title>Mario Run</title>
+    <link rel="stylesheet" type="text/css" href="mario.css" />
   </head>
   <body>
-    <div id="gameArea">
-      <div id="mario"></div>
-      <!-- <div id="obstacle"></div> -->
+    <button id="start-btn">Start Game</button>
+
+    <div id="game-container">
+      <audio
+        id="background-music"
+        src="./assets/background-music.mp3"
+        loop
+      ></audio>
+      <audio id="jump-sound" src="./assets/jump.mp3"></audio>
+      <div id="score"></div>
+      <img id="mario" src="./assets/mario.gif" />
+      <img id="pipe" class="obstacle" src="./assets/pipe.png" />
+      <img id="mushroom" class="obstacle" src="./assets/mushroom.png" />
     </div>
-    <button onclick="startGame()">Start</button>
-    <script src="main.js"></script>
+    <script src="mario.js"></script>
   </body>
 </html>
