@@ -14,6 +14,7 @@ startBtn.addEventListener("click", function () {
   document.getElementById("game-container").style.display = "block";
   startGame();
 });
+
 function startGame() {
   var marioJumping = false;
   var marioMovingRight = false;
@@ -100,6 +101,11 @@ function startGame() {
         obstacles.forEach(function (obstacle) {
           obstacle.style.animationPlayState = "paused";
         });
+        if (confirm("Game Over!")) {
+          location.reload();
+        } else {
+          location.reload();
+        }
       } else {
         obstaclePos -= 10; // increase speed
       }
